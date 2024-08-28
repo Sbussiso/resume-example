@@ -11,10 +11,11 @@ def home():
 @app.route('/download')
 def download():
     # Path to the install folder ZIP file
-    zip_path = os.path.join('scripts', 'install.zip')
+    zip_path = os.path.join('scripts', 'install.exe')
     
     # Serve the install.zip file
     return send_file(zip_path, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
