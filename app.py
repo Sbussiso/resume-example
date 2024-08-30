@@ -28,11 +28,11 @@ def download():
     
     # Set the appropriate folder based on the OS
     if user_os == 'Windows':
-        scripts_folder = 'windows'
+        scripts_folder = 'static/windows'
     elif user_os == 'Linux':
-        scripts_folder = 'linux'
+        scripts_folder = 'static/linux'
     elif user_os == 'Mac':
-        scripts_folder = 'mac'
+        scripts_folder = 'static/mac'
     else:
         return "Unsupported OS", 400
 
