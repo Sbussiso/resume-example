@@ -1,6 +1,7 @@
 from flask import Flask, request, send_file, render_template
 import os
 import zipfile
+import platform
 
 app = Flask(__name__)
 
@@ -8,12 +9,21 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-
 @app.route('/download')
 def download():
-    # Path to the scripts folder and zip file
-    scripts_folder = 'scripts'
-    zip_path = 'scripts.zip'
+    # Determine the user's operating system
+    user_os = platform.system()
+    
+    # Set the appropriate folder based on the OS
+    if user_os == 'Windows':
+        scripts_folder = 'windows'
+    elif user_os == 'Linux':
+        scripts_folder = 'linux'
+    else:
+        return "Unsupported OS", 400
+
+    # Path to the zip file
+    zip_path = f'{scripts_folder}.zip'
 
     # Zip the entire scripts folder
     with zipfile.ZipFile(zip_path, 'w') as zipf:
