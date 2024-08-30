@@ -1,9 +1,18 @@
 from flask import Flask, request, send_file, render_template
 import os
 import zipfile
-import platform
 
 app = Flask(__name__)
+
+def get_user_os(user_agent):
+    if 'Windows' in user_agent:
+        return 'Windows'
+    elif 'Linux' in user_agent:
+        return 'Linux'
+    elif 'Mac' in user_agent or 'Darwin' in user_agent:
+        return 'Mac'
+    else:
+        return 'Unsupported'
 
 @app.route('/')
 def home():
@@ -11,14 +20,19 @@ def home():
 
 @app.route('/download')
 def download():
+    # Get the User-Agent from the request headers
+    user_agent = request.headers.get('User-Agent')
+    
     # Determine the user's operating system
-    user_os = platform.system()
+    user_os = get_user_os(user_agent)
     
     # Set the appropriate folder based on the OS
     if user_os == 'Windows':
         scripts_folder = 'windows'
     elif user_os == 'Linux':
         scripts_folder = 'linux'
+    elif user_os == 'Mac':
+        scripts_folder = 'mac'
     else:
         return "Unsupported OS", 400
 
